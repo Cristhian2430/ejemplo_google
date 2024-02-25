@@ -4,15 +4,16 @@ FROM python:3.12
 #RUN apt-get update && \
 #    apt-get install -y ffmpeg curl && \
 #    apt-get clean
+WORKDIR /app
 
 #COPY requirements.txt ${LAMBDA_TASK_ROOT}
-COPY requirements.txt ./
+COPY requirements.txt requirements.txt
 
 #RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 #COPY src/* ${LAMBDA_TASK_ROOT}
-COPY . ./
+COPY . .
 
 #RUN mkdir model
 #RUN curl -L https://huggingface.co/Cristhian2430/whisper-large-coes-v3/resolve/main/config.json -o ./model/config.json \
