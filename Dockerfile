@@ -4,7 +4,7 @@ FROM python:3.12
 #RUN apt-get update && \
 #    apt-get install -y ffmpeg curl && \
 #    apt-get clean
-WORKDIR /app
+WORKDIR .
 
 #COPY requirements.txt ${LAMBDA_TASK_ROOT}
 COPY requirements.txt requirements.txt
@@ -29,7 +29,7 @@ COPY . .
 #    && curl -L https://huggingface.co/Cristhian2430/whisper-large-coes-v3/resolve/main/special_tokens_map.json -o ./model/special_tokens_map.json \
 #    && curl -L https://huggingface.co/Cristhian2430/whisper-large-coes-v3/resolve/main/preprocessor_config.json -o ./model/preprocessor_config.json
 
-#EXPOSE 8080
+EXPOSE 8501
 
 CMD ["python", "main.py"]
 
