@@ -54,18 +54,29 @@
 #    generation_match_precondition = 0
 
 #    blob.upload_from_file(excel_buffer, 
-                            if_generation_match = generation_match_precondition,
-                            content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                            )
+#                            if_generation_match = generation_match_precondition,
+#                            content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+#                            )
 #    print(train_df)
 
 #    warnings.resetwarnings()
 
-def main():
-  return{
-    "statusCode":200,
-    "Body": "Hello"
-  }
+from flask import Flask
 
-if __name__ == "__main__":
-    main()
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run.'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+#def main():
+#  return{
+#    "statusCode":200,
+#    "Body": "Hello"
+#  }
+#
+#if __name__ == "__main__":
+#    main()
