@@ -9,7 +9,7 @@ WORKDIR .
 #COPY requirements.txt ${LAMBDA_TASK_ROOT}
 COPY requirements.txt requirements.txt
 
-#RUN pip install --upgrade pip
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 #COPY src/* ${LAMBDA_TASK_ROOT}
