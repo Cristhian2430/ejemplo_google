@@ -28,7 +28,7 @@ transcribe = pipeline(
                       device          = device
                       )
 
-#transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
+transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
 
 #def main():
 #    global train_df, storage_client
@@ -67,7 +67,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Codigo Paso 9/10'
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Codigo Paso 10/10'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8501)
