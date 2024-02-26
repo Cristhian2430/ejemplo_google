@@ -27,25 +27,26 @@ transcribe = pipeline(
                       chunk_length_s  = 30,
                       device          = device
                       )
-
+print("Modelo Importado")
 transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
-    
+print("Modelo Ajustado")
 blobs = storage_client.list_blobs("coes-bucket")
-
+print("Bucket")
 cont = 0
-
+print("Inicia Bucle")
 for blob in blobs:
   if blob.name.endswith(".opus"):
+    print(blob.name)
     train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
     audio_data = blob.download_as_string()
     train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
-    print(blob.name)
     cont = cont + 1
-            
+print("Termino el Bucle")
 excel_buffer = BytesIO()
 train_df.to_excel(excel_buffer, index=False)
 excel_buffer.seek(0) 
-    
+print("Crea excel")
+
 bucket = storage_client.bucket("coes-bucket")
 blob = bucket.blob("prueba_whisper.xlsx")
 generation_match_precondition = 0
