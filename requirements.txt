@@ -49,3 +49,8 @@ requests==2.31.0
 rsa==4.9
 safetensors==0.4.2
 six==1.16.0
+sympy==1.12
+tokenizers==0.15.2
+torch==2.2.0
+tqdm==4.66.2
+transformers==4.38.1
