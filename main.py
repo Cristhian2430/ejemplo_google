@@ -38,8 +38,8 @@ for blob in blobs:
   if blob.name.endswith(".opus"):
     print(blob.name)
     train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
-    audio_data = blob.download_as_string()
-    train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
+    #audio_data = blob.download_as_string()
+    #train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
     cont = cont + 1
 print("Termino el Bucle")
 excel_buffer = BytesIO()
