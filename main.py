@@ -42,7 +42,7 @@ def main():
             train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
             audio_data = blob.download_as_string()
             train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
-#            print(blob.name)
+            print(blob.name)
             cont = cont + 1
             
     excel_buffer = BytesIO()
@@ -62,6 +62,7 @@ def main():
     warnings.resetwarnings()
 
 
+main()
 
 from flask import Flask
 
@@ -72,7 +73,7 @@ def hello():
     return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue'
 
 if __name__ == '__main__':
-    main()
+    
     app.run(host='0.0.0.0', port=8501)
 
 #def main():
