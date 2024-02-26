@@ -21,12 +21,12 @@ train_df = pd.DataFrame(columns = ["cont", "audio", "Resultado"])
 google_credentials = service_account.Credentials.from_service_account_file("whisper-coes-2d46b1614374.json")
 storage_client = storage.Client(credentials = google_credentials)
 
-#transcribe = pipeline(
-#                      task            = "automatic-speech-recognition",
-#                      model           = "model/",
-#                      chunk_length_s  = 30,
-#                      device          = device
-#                      )
+transcribe = pipeline(
+                      task            = "automatic-speech-recognition",
+                      model           = "model/",
+                      chunk_length_s  = 30,
+                      device          = device
+                      )
 
 #transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
 
