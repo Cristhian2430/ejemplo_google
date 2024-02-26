@@ -54,3 +54,8 @@ tokenizers==0.15.2
 torch==2.2.0
 tqdm==4.66.2
 transformers==4.38.1
+typing_extensions==4.9.0
+tzdata==2024.1
+urllib3==2.2.1
+xxhash==3.4.1
+yarl==1.9.4
