@@ -30,36 +30,38 @@ transcribe = pipeline(
 
 transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
 
-#def main():
-#    global train_df, storage_client
+def main():
+    global train_df, storage_client
     
-#    blobs = storage_client.list_blobs("coes-bucket")
+    blobs = storage_client.list_blobs("coes-bucket")
 
-#    cont = 0
+    cont = 0
 
-#    for blob in blobs:
-#        if blob.name.endswith(".opus"):
-#            train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
-#            audio_data = blob.download_as_string()
-#            train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
+    for blob in blobs:
+        if blob.name.endswith(".opus"):
+            train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
+            audio_data = blob.download_as_string()
+            train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
 #            print(blob.name)
-#            cont = cont + 1
+            cont = cont + 1
             
-#    excel_buffer = BytesIO()
-#    train_df.to_excel(excel_buffer, index=False)
-#    excel_buffer.seek(0) 
+    excel_buffer = BytesIO()
+    train_df.to_excel(excel_buffer, index=False)
+    excel_buffer.seek(0) 
     
-#    bucket = storage_client.bucket("coes-bucket")
-#    blob = bucket.blob("prueba_whisper.xlsx")
-#    generation_match_precondition = 0
+    bucket = storage_client.bucket("coes-bucket")
+    blob = bucket.blob("prueba_whisper.xlsx")
+    generation_match_precondition = 0
 
-#    blob.upload_from_file(excel_buffer, 
-#                            if_generation_match = generation_match_precondition,
-#                            content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-#                            )
+    blob.upload_from_file(excel_buffer, 
+                            if_generation_match = generation_match_precondition,
+                            content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                            )
 #    print(train_df)
 
-#    warnings.resetwarnings()
+    warnings.resetwarnings()
+
+
 
 from flask import Flask
 
@@ -67,9 +69,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Codigo Paso 10/10'
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue'
 
 if __name__ == '__main__':
+    main()
     app.run(host='0.0.0.0', port=8501)
 
 #def main():
