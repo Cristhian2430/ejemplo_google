@@ -5,9 +5,9 @@ import pandas as pd
 from datasets import Dataset, DatasetDict
 import datasets
 #from transformers.pipelines.pt_utils import KeyDataset
-#from tqdm.auto import tqdm
-#import logging
-#import warnings
+from tqdm.auto import tqdm
+import logging
+import warnings
 #from io import BytesIO
 from google.oauth2 import service_account
 from google.cloud import storage
@@ -67,7 +67,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Codigo Paso 3/10'
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Codigo Paso 4/10'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8501)
