@@ -18,8 +18,8 @@ device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
 train_df = pd.DataFrame(columns = ["cont", "audio", "Resultado"])
 
-#google_credentials = service_account.Credentials.from_service_account_file(".\whisper-coes-2d46b1614374.json")
-#storage_client = storage.Client(credentials = google_credentials)
+google_credentials = service_account.Credentials.from_service_account_file(".\whisper-coes-2d46b1614374.json")
+storage_client = storage.Client(credentials = google_credentials)
 
 #transcribe = pipeline(
 #                      task            = "automatic-speech-recognition",
