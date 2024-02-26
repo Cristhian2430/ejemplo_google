@@ -12,11 +12,11 @@ from io import BytesIO
 from google.oauth2 import service_account
 from google.cloud import storage
 
-#warnings.filterwarnings("ignore", message="Length of IterableDataset.*")
+warnings.filterwarnings("ignore", message="Length of IterableDataset.*")
 
-#device = "cuda:0" if torch.cuda.is_available() else "cpu"
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
-#train_df = pd.DataFrame(columns = ["cont", "audio", "Resultado"])
+train_df = pd.DataFrame(columns = ["cont", "audio", "Resultado"])
 
 #google_credentials = service_account.Credentials.from_service_account_file(".\whisper-coes-2d46b1614374.json")
 #storage_client = storage.Client(credentials = google_credentials)
