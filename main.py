@@ -1,6 +1,6 @@
 import torch
-#from transformers import pipeline
-#import pandas as pd
+from transformers import pipeline
+import pandas as pd
 #import os
 #from datasets import Dataset, DatasetDict
 #import datasets
