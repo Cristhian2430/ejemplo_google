@@ -34,8 +34,8 @@ for blob in blobs:
   if blob.name.endswith(".opus"):
     print(blob.name)
     train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
-    #audio_data = blob.download_as_string()
-    #train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
+    audio_data = blob.download_as_string()
+    train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
     cont = cont + 1
   elif blob.name == "prueba_whisper.xlsx":
     bucket = storage_client.bucket("coes-bucket")
@@ -69,7 +69,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue'
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue Total'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8501)
