@@ -30,12 +30,15 @@ transcribe = pipeline(
 transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
 blobs = storage_client.list_blobs("coes-bucket")
 cont = 0
+print("Antes del Bucle")
+print(transcribe("audioprueba.opus")["text"])
+
 for blob in blobs:
   if blob.name.endswith(".opus"):
     print(blob.name)
     train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
     audio_data = blob.download_as_string()
-    train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
+    #train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
     cont = cont + 1
   elif blob.name == "prueba_whisper.xlsx":
     bucket = storage_client.bucket("coes-bucket")
