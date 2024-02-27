@@ -27,13 +27,9 @@ transcribe = pipeline(
                       chunk_length_s  = 30,
                       device          = device
                       )
-print("Modelo Importado")
 transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
-print("Modelo Ajustado")
 blobs = storage_client.list_blobs("coes-bucket")
-print("Bucket")
 cont = 0
-print("Inicia Bucle")
 for blob in blobs:
   if blob.name.endswith(".opus"):
     print(blob.name)
@@ -41,6 +37,14 @@ for blob in blobs:
     #audio_data = blob.download_as_string()
     #train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
     cont = cont + 1
+  elif blob.name == "prueba_whisper.xlsx":
+    bucket = storage_client.bucket("coes-bucket")
+    blob = bucket.blob("prueba_whisper.xlsx")
+    generation_match_precondition = 0
+    blob.reload()
+    generation_match_precondition = blob.generation
+    blob.delete(if_generation_match=generation_match_precondition)
+    
 print("Termino el Bucle")
 excel_buffer = BytesIO()
 train_df.to_excel(excel_buffer, index=False)
@@ -50,7 +54,7 @@ print("Crea excel")
 bucket = storage_client.bucket("coes-bucket")
 blob = bucket.blob("prueba_whisper.xlsx")
 generation_match_precondition = 0
-
+ 
 blob.upload_from_file(excel_buffer,
                       if_generation_match = generation_match_precondition,
                       content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
