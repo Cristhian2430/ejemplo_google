@@ -31,7 +31,7 @@ transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_pr
 blobs = storage_client.list_blobs("coes-bucket")
 cont = 0
 print("Antes del Bucle")
-#print(transcribe("audioprueba.opus")["text"])
+print(transcribe("audioprueba.opus")["text"])
 
 for blob in blobs:
   if blob.name.endswith(".opus"):
