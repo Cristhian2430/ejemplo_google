@@ -39,32 +39,32 @@ app = Flask(__name__)
 def hello():
     blobs = storage_client.list_blobs("coes-bucket")
     cont = 0
-    #for blob in blobs:
-    #  if blob.name.endswith(".opus"):
-    #    train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
-    #    audio_data = blob.download_as_string()
+    for blob in blobs:
+      if blob.name.endswith(".opus"):
+        train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
+        audio_data = blob.download_as_string()
     #    train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
-    #    cont = cont + 1
-    #  elif blob.name == "prueba_whisper.xlsx":
-    #    bucket = storage_client.bucket("coes-bucket")
-    #    blob = bucket.blob("prueba_whisper.xlsx")
-    #    generation_match_precondition = 0
-    #    blob.reload()
-    #    generation_match_precondition = blob.generation
-    #    blob.delete(if_generation_match=generation_match_precondition)
+        cont = cont + 1
+      elif blob.name == "prueba_whisper.xlsx":
+        bucket = storage_client.bucket("coes-bucket")
+        blob = bucket.blob("prueba_whisper.xlsx")
+        generation_match_precondition = 0
+        blob.reload()
+        generation_match_precondition = blob.generation
+        blob.delete(if_generation_match=generation_match_precondition)
       
-    #excel_buffer = BytesIO()
-    #train_df.to_excel(excel_buffer, index=False)
-    #excel_buffer.seek(0) 
+    excel_buffer = BytesIO()
+    train_df.to_excel(excel_buffer, index=False)
+    excel_buffer.seek(0) 
     
-    #bucket = storage_client.bucket("coes-bucket")
-    #blob = bucket.blob("prueba_whisper.xlsx")
-    #generation_match_precondition = 0
+    bucket = storage_client.bucket("coes-bucket")
+    blob = bucket.blob("prueba_whisper.xlsx")
+    generation_match_precondition = 0
     
-    #blob.upload_from_file(excel_buffer,
-    #                      if_generation_match = generation_match_precondition,
-    #                      content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    #                     )
+    blob.upload_from_file(excel_buffer,
+                          if_generation_match = generation_match_precondition,
+                          content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                         )
     return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue Total'
 
 if __name__ == '__main__':
