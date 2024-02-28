@@ -28,42 +28,8 @@ transcribe = pipeline(
                       device          = device
                       )
 transcribe.model.config.forced_decoder_ids = transcribe.tokenizer.get_decoder_prompt_ids(language="es", task="transcribe")
-blobs = storage_client.list_blobs("coes-bucket")
-cont = 0
-print("Antes del Bucle")
 
-for blob in blobs:
-  if blob.name.endswith(".opus"):
-    print(blob.name)
-    train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
-    audio_data = blob.download_as_string()
-    #train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
-    cont = cont + 1
-  elif blob.name == "prueba_whisper.xlsx":
-    bucket = storage_client.bucket("coes-bucket")
-    blob = bucket.blob("prueba_whisper.xlsx")
-    generation_match_precondition = 0
-    blob.reload()
-    generation_match_precondition = blob.generation
-    blob.delete(if_generation_match=generation_match_precondition)
-    
-print("Termino el Bucle")
-excel_buffer = BytesIO()
-train_df.to_excel(excel_buffer, index=False)
-excel_buffer.seek(0) 
-print("Crea excel")
-
-bucket = storage_client.bucket("coes-bucket")
-blob = bucket.blob("prueba_whisper.xlsx")
-generation_match_precondition = 0
- 
-blob.upload_from_file(excel_buffer,
-                      if_generation_match = generation_match_precondition,
-                      content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                     )
-#    print(train_df)
 warnings.resetwarnings()
-
 
 from flask import Flask
 
@@ -71,8 +37,35 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-
-    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue Total' + transcribe("audioprueba.opus")["text"]
+    blobs = storage_client.list_blobs("coes-bucket")
+    cont = 0
+    for blob in blobs:
+      if blob.name.endswith(".opus"):
+        train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
+        audio_data = blob.download_as_string()
+        train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
+        cont = cont + 1
+      elif blob.name == "prueba_whisper.xlsx":
+        bucket = storage_client.bucket("coes-bucket")
+        blob = bucket.blob("prueba_whisper.xlsx")
+        generation_match_precondition = 0
+        blob.reload()
+        generation_match_precondition = blob.generation
+        blob.delete(if_generation_match=generation_match_precondition)
+      
+    excel_buffer = BytesIO()
+    train_df.to_excel(excel_buffer, index=False)
+    excel_buffer.seek(0) 
+    
+    bucket = storage_client.bucket("coes-bucket")
+    blob = bucket.blob("prueba_whisper.xlsx")
+    generation_match_precondition = 0
+    
+    blob.upload_from_file(excel_buffer,
+                          if_generation_match = generation_match_precondition,
+                          content_type        = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                         )
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue Total'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8501)
