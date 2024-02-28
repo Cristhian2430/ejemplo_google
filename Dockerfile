@@ -10,7 +10,6 @@ WORKDIR .
 #COPY requirements.txt ${LAMBDA_TASK_ROOT}
 COPY requirements.txt requirements.txt
 COPY whisper-coes-2d46b1614374.json whisper-coes-2d46b1614374.json
-COPY audioprueba.opus audioprueba.opus
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
