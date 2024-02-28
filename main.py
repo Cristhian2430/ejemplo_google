@@ -71,9 +71,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    print(transcribe("audioprueba.opus")["text"])
 
-    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue Total'
+    return '¡Hola, mundo! Esta es una aplicación web desplegada en Cloud Run. Despliegue Total' + transcribe("audioprueba.opus")["text"]
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8501)
