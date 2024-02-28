@@ -37,13 +37,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
+    global train_df
     blobs = storage_client.list_blobs("coes-bucket")
     cont = 0
     for blob in blobs:
       if blob.name.endswith(".opus"):
         train_df = pd.concat([train_df, pd.DataFrame({'cont': [cont], 'audio': [blob.name]})], ignore_index=True)
         audio_data = blob.download_as_string()
-    #    train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
+        train_df.loc[cont, "Resultado"] = transcribe(audio_data)["text"]
         cont = cont + 1
       elif blob.name == "prueba_whisper.xlsx":
         bucket = storage_client.bucket("coes-bucket")
